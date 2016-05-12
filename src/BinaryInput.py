@@ -1,4 +1,8 @@
 #!/usr/bin/python2
+"""
+Simple Binary Input class for testing
+getch code from http://stackoverflow.com/questions/510357/python-read-a-single-character-from-the-user
+"""
 
 class BinaryInput:
 	def __init__(self):

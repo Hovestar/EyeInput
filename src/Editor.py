@@ -1,19 +1,22 @@
 #!/usr/bin/python2
-
+'''
+Class that holds GUI and Integrates all of the parts of the EyeInput
+Base from: http://sebsauvage.net/python/gui/
+'''
 
 try:
 	import wx
 except ImportError:
 	raise ImportError,"The wxPython module is required to run this program"
 
-class simpleapp_wx(wx.Frame):
+class _my_wx_frame(wx.Frame):
 	def __init__(self,parent,id,title):
 		wx.Frame.__init__(self,parent,id,title)
 		self.parent = parent
 		self.initialize()
 
 	def initialize(self):
-		#sizer = wx.GridBagSizer()
+		
 		self.height=500
 		self.width =300
 		w1 = self.width
@@ -21,26 +24,28 @@ class simpleapp_wx(wx.Frame):
 		h1 = int(.4*self.height)
 		h2 = int(.2*self.height)
 		h3 = h1+h2
-		self.Message = wx.StaticText(self,-1,	label=u'Top Message',	pos=(0 ,0 ),	size=(w1,h1))
-		self.Options = wx.StaticText(self,-1,	label=u'Middle Options',pos=(0 ,h1),	size=(w1,h2))
-		self.Box1 = wx.StaticText(self,-1,		label=u'Options 1',		pos=(0 ,h3),	size=(w2,h1))
-		self.Box2 = wx.StaticText(self,-1,		label=u'Options 2',		pos=(w2,h3),	size=(w2,h1))
-		'''
-		sizer.Add(self.Message,(0,0),(1,2),wx.EXPAND)
-		sizer.Add(self.Options,(1,0),(2,2),wx.EXPAND)
-		sizer.Add(self.Message,(2,0),(3,1),wx.EXPAND)
-		sizer.Add(self.Message,(2,1),(3,2),wx.EXPAND)
 		
-		self.SetSizer(sizer)
-		'''
+		self.Message = 	wx.StaticText(self,-1,	label=u'Top Message',	pos=(0 ,0 ),	size=(w1,h1))
+		self.Options = 	wx.StaticText(self,-1,	label=u'Middle Options',pos=(0 ,h1),	size=(w1,h2))
+		self.Box1 = 	wx.StaticText(self,-1,	label=u'Options 1',		pos=(0 ,h3),	size=(w2,h1))
+		self.Box2 = 	wx.StaticText(self,-1,	label=u'Options 2',		pos=(w2,h3),	size=(w2,h1))
+		
+		self.Message.Wrap(w1)
+		self.Options.Wrap(w1)
+		self.Box1.Wrap(w2)
+		self.Box2.Wrap(w2)
+		
 		self.SetSizeHints(self.width,self.height,self.width,self.height)
 		self.Show(True)
 
+class EyeInputEditor(wx.App):
+	def __init__(self):
+		wx.App.__init__(self)
+		self.Frame = _my_wx_frame(None,-1,'my application')
 
 
 if __name__ == "__main__":
-	app = wx.App()
-	frame = simpleapp_wx(None,-1,'my application')
+	app = EyeInputEditor()
 	app.MainLoop()
 """
 
