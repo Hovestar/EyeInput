@@ -8,6 +8,8 @@ try:
 	import wx
 except ImportError:
 	raise ImportError,"The wxPython module is required to run this program"
+import BinaryInput
+import Huffman
 
 class _my_wx_frame(wx.Frame):
 	def __init__(self,parent,id,title):
@@ -30,91 +32,59 @@ class _my_wx_frame(wx.Frame):
 		self.Box1 = 	wx.StaticText(self,-1,	label=u'Options 1',		pos=(0 ,h3),	size=(w2,h1))
 		self.Box2 = 	wx.StaticText(self,-1,	label=u'Options 2',		pos=(w2,h3),	size=(w2,h1))
 		
-		self.Message.Wrap(w1)
-		self.Options.Wrap(w1)
-		self.Box1.Wrap(w2)
-		self.Box2.Wrap(w2)
+		self.Message.Wrap(w1-10)
+		self.Options.Wrap(w1-10)
+		self.Box1.Wrap(w2-10)
+		self.Box2.Wrap(w2-10)
 		
 		self.SetSizeHints(self.width,self.height,self.width,self.height)
 		self.Show(True)
+		
+		self.Input = BinaryInput.BinaryInput()
+		self.Tree = Huffman.HuffmanTree()
+		self.CurrNode = self.Tree.root
+	
+	def updateBoxes(self):
+		text = self.Input.action+self.Input.zero+self.Input.after
+		for c in self.getOptions(0):
+			text += c+', '
+		text = text[:-2]
+		self.Box1.SetLabel(text)
+		
+		text = self.Input.action+self.Input.one+self.Input.after
+		for c in self.getOptions(1):
+			text += c+', '
+		text = text[:-2]
+		self.Box2.SetLabel(text)
+		
+	
+	def getOptions(self,right):
+		"""right is 1 for right side and 0 for left side"""
+		child = self.currNode.children()[right]
+		branches = list(map(lambda x:x[0][1],child.preorder()))
+		return branches
+	
+	def listen(self):
+		inp = self.Input()
+		if inp ==2:
+			return
+		child = self.CurrNode.children()[inp]
+		if isInstance(child,Huffman._HuffmanNode):
+			self.CurrNode = child
+		else:
+			self.Message.SetLabel(child[1])
+			self.CurrNode = self.Tree.root
+		self.UpdateBoxes()
+		wx.CallAfter(self.listen)
+		
 
 class EyeInputEditor(wx.App):
 	def __init__(self):
 		wx.App.__init__(self)
 		self.Frame = _my_wx_frame(None,-1,'my application')
+		self.Frame.listen()
+		self.MainLoop()
 
 
 if __name__ == "__main__":
 	app = EyeInputEditor()
-	app.MainLoop()
-"""
-
-try:
-    import wx
-except ImportError:
-    raise ImportError,"The wxPython module is required to run this program"
-
-class simpleapp_wx(wx.Frame):
-    def __init__(self,parent,id,title):
-        wx.Frame.__init__(self,parent,id,title)
-        self.parent = parent
-        self.initialize()
-
-    def initialize(self):
-        sizer = wx.GridBagSizer()
-
-        self.entry = wx.TextCtrl(self,-1,value=u"Enter text here.")
-        button = wx.Button(self,-1,label="Click me !")
-        self.label = wx.StaticText(self,-1,label=u'Hello !')
-        
-        sizer.Add(self.entry,(0,0),(1,1),wx.EXPAND)
-        sizer.Add(button, (0,1))
-        sizer.Add( self.label, (1,0),(1,2), wx.EXPAND )
-
-
-        self.Bind(wx.EVT_TEXT_ENTER, self.OnPressEnter, self.entry)
-        self.Bind(wx.EVT_BUTTON, self.OnButtonClick, button)
-        
-        self.label.SetBackgroundColour(wx.BLUE)
-        self.label.SetForegroundColour(wx.WHITE)
-
-        sizer.AddGrowableCol(0)
-        self.SetSizerAndFit(sizer)
-        self.SetSizeHints(-1,self.GetSize().y,-1,self.GetSize().y );
-        self.Show(True)
-
-    def OnButtonClick(self,event):
-        self.label.SetLabel( self.entry.GetValue() + " (You clicked the button)" )
-
-    def OnPressEnter(self,event):
-        self.label.SetLabel( self.entry.GetValue() + " (You pressed ENTER)" )
-
-if __name__ == "__main__":
-    app = wx.App()
-    frame = simpleapp_wx(None,-1,'my application')
-    app.MainLoop()
-"""
-'''
-	def initialize(self):
-		self.grid()
-		self.TextMess = Tkinter.StringVar()
-		self.Text1 = Tkinter.StringVar()
-		self.Text2 = Tkinter.StringVar()
-		self.Message = Tkinter.Message(self,textvariable=self.TextMess)
-		self.Message.grid(column=0,row=0,columnspan=2,rowspan=4,sticky='EW',xsize=100,ysize=100)
-		self.Options = Tkinter.Frame(self)
-		self.Options.grid(column=0,columnspan=2,row=5,rowspan=2,sticky='EW',xsize=100,ysize=100)
-		self.Box1 = Tkinter.Message(self,textvariable=self.Text1)
-		self.Box1.grid(column=0,row=7,columnspan=1,rowspan=4,sticky='EW',xsize=100,ysize=50)
-		self.Box2 = Tkinter.Message(self,textvariable=self.Text2)
-		self.Box2.grid(column=1,row=7,columnspan=1,rowspan=4,sticky='EW',xsize=100,ysize=50)
-		
-		self.TextMess.set("Message Box")
-		self.Text1.set("Options 1")
-		self.Text2.set("Options 2")
-
-if __name__ == "__main__":
-	app = simpleapp_tk(None)
-	app.title('my application')
-	app.mainloop()
-'''

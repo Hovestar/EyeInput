@@ -10,7 +10,7 @@ class BinaryInput:
 		self.zero= "q"
 		self.one = "w"
 		self.esc = "e"
-		self.after = " button for "
+		self.after = " button for:"
 		self.getter = _Getch()
 	def __call__(self):
 		mappint = {'q':0,'w':1,'e':2}
