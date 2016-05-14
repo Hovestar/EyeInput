@@ -7,13 +7,13 @@ getch code from http://stackoverflow.com/questions/510357/python-read-a-single-c
 class BinaryInput:
 	def __init__(self):
 		self.action = "Press the "
-		self.zero= "w"
-		self.one = "q"
+		self.zero= "q"
+		self.one = "w"
 		self.esc = "e"
-		self.after = " button for:"
+		self.after = " button for: "
 		self.getter = _Getch()
 	def __call__(self):
-		mappint = {'w':0,'q':1,'e':2}
+		mappint = {self.zero:0,self.one:1,self.esc:2}
 		while True:
 			try:
 				return mappint[self.getter()]

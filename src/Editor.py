@@ -41,11 +41,11 @@ class _my_wx_frame(wx.Frame):
 	
 	def updateBoxText(self,right,text):
 		if right:
-			self.Box1.SetLabel(text)
-			self.Box1.Wrap(int(self.width/2-10))
-		else:
 			self.Box2.SetLabel(text)
 			self.Box2.Wrap(int(self.width/2-10))
+		else:
+			self.Box1.SetLabel(text)
+			self.Box1.Wrap(int(self.width/2-10))
 	
 	def updateMessage(self,text):
 		mess = self.Message.GetLabel()
