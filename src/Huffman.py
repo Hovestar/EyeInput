@@ -13,19 +13,22 @@ class _HuffmanNode(object):
 		self.root = root
 	def children(self):
 		return (self.left,self.right)
-	def preorder(self,path=[]):
+	def preorder(self):
 		end = []
 		if self.left is not None:
-			if isinstance(self.left[1], _HuffmanNode):
-				end += self.left[1].preorder(path+[0])
+			if isinstance(self.left, _HuffmanNode):
+				end += self.left.preorder()
 			else:
-				end.append((self.left,path+[0]))
+				end.append(self.left)
 		if self.right is not None:
-			if isinstance(self.right[1], _HuffmanNode):
-				end += self.right[1].preorder(path+[1])
+			if isinstance(self.right, _HuffmanNode):
+				end += self.right.preorder()
 			else:
-				end.append((self.right,path+[1]))
+				end.append(self.right)
 		return end
+	def __str__(self):
+		l = self.preorder()
+		return ', '.join(l)
 
 class HuffmanTree(_HuffmanNode):
 	def __init__(self):
@@ -46,7 +49,7 @@ class HuffmanTree(_HuffmanNode):
 		p.sort(key = lambda x:-x[0])
 		while len(p) > 1:
 			left,right = p.pop(),p.pop()
-			node = _HuffmanNode(left,right)
+			node = _HuffmanNode(left[1],right[1])
 			p.append((left[0]+right[0],node))
 			p.sort(key = lambda x:-x[0])
 		self.root = p.pop()[1]

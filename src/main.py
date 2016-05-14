@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 """
-Hey at least this is all my code!
+Yeah this is a tad unneeded. Youc an just run the editor file.
 """
-
-pass
+import Editor
+Editor.EyeInputEditor()
