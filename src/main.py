@@ -3,4 +3,4 @@
 Yeah this is a tad unneeded. Youc an just run the editor file.
 """
 import Editor
-Editor.EyeInputEditor()
+Editor.SimpleEditor()

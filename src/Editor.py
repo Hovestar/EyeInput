@@ -7,8 +7,8 @@ Base from: http://sebsauvage.net/python/gui/
 import Tkinter as tk
 from tkSimpleDialog import askstring
 from tkFileDialog   import asksaveasfilename
-
 from tkMessageBox import askokcancel
+
 import sys
 import os
 import Markov
@@ -55,7 +55,7 @@ class AutoCorrectBox(tk.Frame):
 		tk.Frame.__init__(self,parent)
 		self.mark = Markov.Markov()
 		self.mark.addFile("George.txt")
-		self.num = 15
+		self.num = 5
 		self.words = ["" for _ in range(self.num)]
 		self.options = [tk.Button(self) for _ in range(self.num)]
 		for button in self.options:
@@ -87,7 +87,7 @@ class Contacts(tk.Frame):
 		self.contacts = [tk.Button(self) for _ in range(self.num)]
 		for button in self.contacts:
 			button.pack(side = tk.LEFT)
-			button.config(text = word,for = THEFONT)
+			button.config(text = word,font = THEFONT)
 	
 class SimpleEditor(ScrolledText):
 	def __init__(self, parent=None, file=None):
